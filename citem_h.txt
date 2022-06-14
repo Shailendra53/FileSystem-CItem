@@ -1,0 +1,233 @@
+#include "stdafx.h"
+#include "CItem.h"
+
+CItem::CItem(WIN32_FIND_DATA& fdFindData, ofstream& fsFileName) {
+	m_fdFindData = &fdFindData;
+	m_fsOutFile = &fsFileName;
+}
+
+CItem::~CItem() {
+
+}
+
+void CItem::CreationTime(FILETIME& ftTime) {
+	SYSTEMTIME stTime;
+
+	if (FileTimeToSystemTime(&ftTime, &stTime)) {
+		*m_fsOutFile << "    Creation Time - [" << stTime.wDay << "/" << stTime.wMonth << "/"
+			<< stTime.wYear << "T" << stTime.wHour << ":" << stTime.wMinute << ":"
+			<< stTime.wSecond << "]\n";
+	}
+	else {
+		GLOGOUT1(LVL_NORMAL, "FileTimeToSystemTime Failed");
+	}
+}
+
+void CItem::LastAccesstTime(FILETIME& ftTime) {
+	SYSTEMTIME stTime;
+
+	if (FileTimeToSystemTime(&ftTime, &stTime)) {
+		*m_fsOutFile << "    Last Access Time - [" << stTime.wDay << "/" << stTime.wMonth << "/"
+			<< stTime.wYear << "T" << stTime.wHour << ":" << stTime.wMinute << ":"
+			<< stTime.wSecond << "]\n";
+	}
+	else {
+		GLOGOUT1(LVL_NORMAL, "FileTimeToSystemTime Failed");
+	}
+}
+
+void CItem::LastWriteTime(FILETIME& ftTime) {
+	SYSTEMTIME stTime;
+
+	if (FileTimeToSystemTime(&ftTime, &stTime)) {
+		*m_fsOutFile << "    Last Write Time - [" << stTime.wDay << "/" << stTime.wMonth << "/"
+			<< stTime.wYear << "T" << stTime.wHour << ":" << stTime.wMinute << ":"
+			<< stTime.wSecond << "]\n";
+	}
+	else {
+		GLOGOUT1(LVL_NORMAL, "FileTimeToSystemTime Failed");
+	}
+}
+
+void CItem::LowOrderSize(DWORD& dwSize) {
+
+	*m_fsOutFile << "    Low Order Size - [" << dwSize << "]" << endl;
+}
+
+void CItem::HighOrderSize(DWORD& dwSize) {
+
+	*m_fsOutFile << "    High Order Size - [" << dwSize << "]" << endl;
+}
+
+void CItem::Reserved0(DWORD& dwSize, DWORD& dwFileAttr) {
+
+	if (dwFileAttr & FILE_ATTRIBUTE_REPARSE_POINT) {
+		*m_fsOutFile << "    Reserved0 - [" << dwSize << "]" << endl;
+	}
+}
+
+void CItem::Reserved1(DWORD& dwSize) {
+
+	*m_fsOutFile << "    Reserved1 - [" << dwSize << "]" << endl;
+}
+
+void CItem::FileName(WCHAR wName) {
+
+	*m_fsOutFile << "    File Name - [" << wName << "]" << endl;
+}
+
+void CItem::AlternateFileName(WCHAR wName) {
+
+	*m_fsOutFile << "    Alternate File Name - [" << wName << "]" << endl;
+}
+
+void CItem::FileType(DWORD& dwFileType) {
+
+	*m_fsOutFile << "    File Type - [" << dwFileType << "]" << endl;
+}
+
+void CItem::CreatorType(DWORD& dwCreatorType) {
+
+	*m_fsOutFile << "    Creator Type - [" << dwCreatorType << "]" << endl;
+}
+
+void CItem::FinderFlags(WORD dwFinderFlags) {
+
+	*m_fsOutFile << "    Flags - [" << dwFinderFlags << "]" << endl;
+}
+
+bool CItem::IsArchive(DWORD& dwFileAttributes) {
+	// A file or directory that is an archive file or directory. 
+	// Applications typically use this attribute to mark files for backup or removal . 
+	return dwFileAttributes & FILE_ATTRIBUTE_ARCHIVE;
+}
+
+bool CItem::IsCompressed(DWORD& dwFileAttributes) {
+	// compressed file 
+	return dwFileAttributes & FILE_ATTRIBUTE_COMPRESSED;
+}
+
+bool CItem::IsDevice(DWORD& dwFileAttributes) {
+	// value reserved for system use 
+	return dwFileAttributes & FILE_ATTRIBUTE_DEVICE;
+}
+
+bool CItem::IsDirectory(DWORD& dwFileAttributes) {
+	// idenfies a directory 
+	return dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY;
+}
+
+bool CItem::IsEncrypted(DWORD& dwFileAttributes) {
+	// encrypted file or directory 
+	return dwFileAttributes & FILE_ATTRIBUTE_ENCRYPTED;
+}
+
+bool CItem::IsHidden(DWORD& dwFileAttributes) {
+	// hidden file or directory 
+	return dwFileAttributes & FILE_ATTRIBUTE_HIDDEN;
+}
+
+bool CItem::IsIntegrityStream(DWORD& dwFileAttributes) {
+	// TODO: description
+	return dwFileAttributes & FILE_ATTRIBUTE_INTEGRITY_STREAM;
+}
+
+bool CItem::IsNormal(DWORD& dwFileAttributes) {
+	// TODO: description
+	return dwFileAttributes & FILE_ATTRIBUTE_NORMAL;
+}
+
+bool CItem::IsNotContentIndexed(DWORD& dwFileAttributes) {
+	// TODO: description
+	return dwFileAttributes & FILE_ATTRIBUTE_NOT_CONTENT_INDEXED;
+}
+
+bool CItem::IsNoScrubData(DWORD& dwFileAttributes) {
+	// TODO: description
+	return dwFileAttributes & FILE_ATTRIBUTE_NO_SCRUB_DATA;
+}
+
+bool CItem::IsOffline(DWORD& dwFileAttributes) {
+	// TODO: description
+	return dwFileAttributes & FILE_ATTRIBUTE_OFFLINE;
+}
+
+bool CItem::IsReadonly(DWORD& dwFileAttributes) {
+	// TODO: description
+	return dwFileAttributes & FILE_ATTRIBUTE_READONLY;
+}
+/*
+bool CItem::IsRecallOnDataAccess(DWORD& dwFileAttributes) {
+	// TODO: description
+	return FileAttributes & FILE_ATTRIBUTE_RECALL_ON_DATA_ACCESS;
+}
+
+bool CItem::IsRecallOnOpen(DWORD& dwFileAttributes) {
+	// TODO: description
+	return FileAttributes & FILE_ATTRIBUTE_RECALL_ON_OPEN;
+}
+*/
+bool CItem::IsReparsePoint(DWORD& dwFileAttributes) {
+	// TODO: description
+	return dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT;
+}
+
+bool CItem::IsSparseFile(DWORD& dwFileAttributes) {
+	// TODO: description
+	return dwFileAttributes & FILE_ATTRIBUTE_SPARSE_FILE;
+}
+
+bool CItem::IsSystem(DWORD& dwFileAttributes) {
+	// TODO: description
+	return dwFileAttributes & FILE_ATTRIBUTE_SYSTEM;
+}
+
+bool CItem::IsTemporary(DWORD& dwFileAttributes) {
+	// TODO: description
+	return dwFileAttributes & FILE_ATTRIBUTE_TEMPORARY;
+}
+
+bool CItem::IsVirtual(DWORD& dwFileAttributes) {
+	// TODO: description
+	return dwFileAttributes & FILE_ATTRIBUTE_VIRTUAL;
+}
+
+void CItem::WriteAllAttributes() {
+
+	*m_fsOutFile << "  Attributes: " << endl;
+	*m_fsOutFile << "    Archive [" << this->IsArchive((*m_fdFindData).dwFileAttributes) << "]" << endl;
+	*m_fsOutFile << "    Compressed [" << this->IsCompressed((*m_fdFindData).dwFileAttributes) << "]" << endl;
+	*m_fsOutFile << "    Device [" << this->IsDevice((*m_fdFindData).dwFileAttributes) << "]" << endl;
+	*m_fsOutFile << "    Directory [" << this->IsDirectory((*m_fdFindData).dwFileAttributes) << "]" << endl;
+	*m_fsOutFile << "    Encrypted [" << this->IsEncrypted((*m_fdFindData).dwFileAttributes) << "]" << endl;
+	*m_fsOutFile << "    Hidden [" << this->IsHidden((*m_fdFindData).dwFileAttributes) << "]" << endl;
+	*m_fsOutFile << "    Integrity System [" << this->IsIntegrityStream((*m_fdFindData).dwFileAttributes) << "]" << endl;
+	*m_fsOutFile << "    Normal [" << this->IsNormal((*m_fdFindData).dwFileAttributes) << "]" << endl;
+	*m_fsOutFile << "    Not Content Indexed [" << this->IsNotContentIndexed((*m_fdFindData).dwFileAttributes) << "]" << endl;
+	*m_fsOutFile << "    No Scrub Data [" << this->IsNoScrubData((*m_fdFindData).dwFileAttributes) << "]" << endl;
+	*m_fsOutFile << "    Offline [" << this->IsOffline((*m_fdFindData).dwFileAttributes) << "]" << endl;
+	*m_fsOutFile << "    Readonly [" << this->IsReadonly((*m_fdFindData).dwFileAttributes) << "]" << endl;
+	//*m_fsOutFile << "  Recall on Data Access [" << this->IsRecallOnDataAccess((*m_fdFindData).dwFileAttributes) << "]" << endl;
+	//*m_fsOutFile << "  Recall on open [" << this->IsRecallOnOpen((*m_fdFindData).dwFileAttributes) << "]" << endl;
+	*m_fsOutFile << "    Reparse Point [" << this->IsReparsePoint((*m_fdFindData).dwFileAttributes) << "]" << endl;
+	*m_fsOutFile << "    Sparse File [" << this->IsSparseFile((*m_fdFindData).dwFileAttributes) << "]" << endl;
+	*m_fsOutFile << "    System [" << this->IsSystem((*m_fdFindData).dwFileAttributes) << "]" << endl;
+	*m_fsOutFile << "    Temporary [" << this->IsTemporary((*m_fdFindData).dwFileAttributes) << "]" << endl;
+	*m_fsOutFile << "    Virtual [" << this->IsVirtual((*m_fdFindData).dwFileAttributes) << "]" << endl;
+}
+
+void CItem::WriteAllProperties() {
+
+	*m_fsOutFile << "  Properties:" << endl;
+	this->FileName(*(*m_fdFindData).cFileName);
+	this->AlternateFileName(*(*m_fdFindData).cAlternateFileName);
+	this->CreationTime((*m_fdFindData).ftCreationTime);
+	this->LastAccesstTime((*m_fdFindData).ftLastAccessTime);
+	this->LastWriteTime((*m_fdFindData).ftLastWriteTime);
+	this->LowOrderSize((*m_fdFindData).nFileSizeLow);
+	this->HighOrderSize((*m_fdFindData).nFileSizeHigh);
+	this->Reserved0((*m_fdFindData).dwReserved0, (*m_fdFindData).dwFileAttributes);
+	//this->FileType(FileData.defilety);
+	//this->CreatorType(FileData.creato);
+	//this->FinderFlags(FileData.flag);
+}

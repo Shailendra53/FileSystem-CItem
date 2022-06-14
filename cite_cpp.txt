@@ -1,0 +1,73 @@
+#pragma once
+
+class CItem
+{
+protected:
+	ofstream *m_fsOutFile;
+	WIN32_FIND_DATA *m_fdFindData;
+
+public:
+	CItem(WIN32_FIND_DATA&, ofstream&);
+	~CItem();
+
+	void CreationTime(FILETIME&);
+	void LastAccesstTime(FILETIME&);
+	void LastWriteTime(FILETIME&);
+	void LowOrderSize(DWORD&);
+	void HighOrderSize(DWORD&);
+	void Reserved0(DWORD&, DWORD&);
+	void Reserved1(DWORD&);
+	void FileName(WCHAR);
+	void AlternateFileName(WCHAR);
+	void FileType(DWORD&);
+	void CreatorType(DWORD&);
+	void FinderFlags(WORD);
+
+	bool IsArchive(DWORD&);
+	bool IsCompressed(DWORD&);
+	bool IsDevice(DWORD&);
+	bool IsDirectory(DWORD&);
+	bool IsEncrypted(DWORD&);
+	bool IsHidden(DWORD&);
+	bool IsIntegrityStream(DWORD&);
+	bool IsNormal(DWORD&);
+	bool IsNotContentIndexed(DWORD&);
+	bool IsNoScrubData(DWORD&);
+	bool IsOffline(DWORD&);
+	bool IsReadonly(DWORD&);
+	// bool IsRecallOnDataAccess(DWORD&);
+	// bool IsRecallOnOpen(DWORD&);
+	bool IsReparsePoint(DWORD&);
+	bool IsSparseFile(DWORD&);
+	bool IsSystem(DWORD&);
+	bool IsTemporary(DWORD&);
+	bool IsVirtual(DWORD&);
+
+	void WriteAllAttributes();
+
+	void WriteAllProperties();
+};
+
+/* 
+About Class:
+
+Properties: 
+	WIN32_FIND_DATA
+		- ftCreationTime
+		- ftLastAccessTime
+		- ftLastWriteTime
+		- nFileSizeHigh
+		- nFileSizelow
+		- dwReserved0
+		- dwReserved1
+		- cFileName
+		- cAlternateFileName
+		- dwFileType
+		- dwCreatorType
+		- wfinderFlags
+
+Attibutes:
+	WIN32_FIND_DATA
+		- dwFileAttributes (all)
+*/
+
